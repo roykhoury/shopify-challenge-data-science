@@ -8,3 +8,24 @@ Data science shopify Challenge
 So a solution would be to exclude any orders from this user_id. And recalculate the AOV.
 
 3. The calculation excluding this user_id goes to: 754.09$, as seen [here](https://github.com/roykhoury/shopify-challenge-data-science/blob/main/shopify-datascience-challenge.ipynb)
+
+## Question 2
+1. SELECT count(*) FROM Orders WHERE ShipperID = <br>
+(SELECT ShipperID FROM Shippers WHERE ShipperName IS 'Speedy Express'); <br>
+   -- Which yields 54 --
+
+2. SELECT LastName <br>
+FROM Employees WHERE EmployeeID = <br>
+(SELECT count(*) FROM Orders GROUP BY CustomerID ORDER BY count(*) DESC LIMIT 1); <br>
+-- Which yields theh answer: West --
+
+3. SELECT sum(Quantity) AS TotalOrdered, ProductName <br>
+FROM OrderDetails <br>
+INNER JOIN Orders ON OrderDetails.OrderID = Orders.OrderID <br>
+INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID <br>
+INNER JOIN Products ON OrderDetails.ProductID = Products.ProductID <br>
+WHERE Customers.Country = 'Germany' <br>
+GROUP BY OrderDetails.ProductID <br>
+ORDER BY sum(OrderDetails.Quantity) DESC <br>
+LIMIT 1; <br>
+-- Which yields the answer: Boston Crab Meat
